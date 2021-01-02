@@ -1,6 +1,6 @@
 /*
 			Latie v0.1
-				Developed By xZen78L
+				Developed By ZTzTopia
 
 		Library: Discord.js
 		Database: MySql
