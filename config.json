@@ -1,0 +1,9 @@
+{
+  "token": "Super Secret Bot Token",
+  "DBLtoken": "Super Secret DBL Token",
+  "prefix": "-",
+  "modules": ["fun", "info", "moderation", "owners", "utility"],
+  "ownerID": ["483215020801392650", "477719802497073162"],
+  "agree": "",
+  "disagree": ""
+}
