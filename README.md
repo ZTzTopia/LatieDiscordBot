@@ -1,7 +1,7 @@
 <h1>LatieDiscordBot</h1>
 
 <p>
-  <img alt="License" src="https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot" />
+  <a href="https://github.com/ZTzTopia/LatieDiscordBot/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot" /></a>
 </p>
 
 <h2>Requirement</h2>
