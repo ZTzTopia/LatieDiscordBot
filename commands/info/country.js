@@ -8,7 +8,7 @@ module.exports = {
     example: ["Indonesia"]
 };
 
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const unirest = require("unirest");
 const errors = require("../../module/errors.js");
 const help = require("../../module/help.js");
@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args, suffix) => {
             else if (res.status === 404) return errors.resStatus(message, "404");
 
             for (let i = 0; i < res.length; i++) {
-                let country = new Discord.RichEmbed();
+                let country = new MessageEmbed();
                 let capital = res[i].capital || "N/A";
                 let code = res[i].alpha2Code || "N/A";
                 let code2 = res[i].alpha3Code || "N/A";

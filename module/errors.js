@@ -1,4 +1,4 @@
-const { Client, RichEmbed } = require("discord.js");
+const { Client } = require("discord.js");
 const client = new Client();
 const { prefix, disagree } = require("../config.json");
 const fs = require("fs");

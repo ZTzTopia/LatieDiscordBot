@@ -5,15 +5,15 @@ const db = require("../../configdb.js");
 const cooldowns = new Collection();
 module.exports = async (client, message) => {
     if (message.channel.type == "dm") {
-        console.log('> ' + message.author.username + ' Chat: ' + message);
+        console.log('> ' + message.author.username + ' Chat: ' + message.content);
     } else {
-        console.log('> ' + message.author.username + ' From ' + message.guild + ' Chat: ' + message);
+        console.log('> ' + message.author.username + ' From ' + message.guild.name + ' Chat: ' + message.content);
     }
     
     if (message.author.bot) return;
     if (message.channel.type != "dm") {
-        if (message.guild.members.get(client.user.id).hasPermission("SEND_MESSAGES")) return msgStart();
-        if (message.guild.members.get(client.user.id).hasPermission("ADMINISTRATOR")) return msgStart();
+        if (message.guild.members.cache.get(client.user.id).hasPermission("SEND_MESSAGES")) return msgStart();
+        if (message.guild.members.cache.get(client.user.id).hasPermission("ADMINISTRATOR")) return msgStart();
     } else {
         msgStartDM()
     }

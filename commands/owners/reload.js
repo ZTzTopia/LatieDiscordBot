@@ -8,7 +8,6 @@ module.exports = {
     example: ["8ball", "all"]
 };
 
-const { Client, Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 const { ownerID, modules } = require('../../config.json');
 const errors = require('../../module/errors.js');

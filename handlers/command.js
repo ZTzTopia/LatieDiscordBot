@@ -7,6 +7,7 @@ module.exports = (client) => {
         for(let file of commands) {
             const command = require(`../commands/${dirs}/${file}`);
             client.commands.set(command.name, command);
+            delete require.cache[require.resolve(`../commands/${dirs}/${file}`)];
             console.log(`Commands: ${command.name} Loaded!`);
             count++;
         }

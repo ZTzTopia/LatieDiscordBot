@@ -8,8 +8,9 @@ module.exports = {
     example: ['Hello, World!']
 };
 
-const { RichEmbed } = require('discord.js');
 module.exports.run = async (bot, message, args, suffix) => {
+    if(!args[0]) return;
+
     message.delete();
 	message.channel.send(suffix);
 }

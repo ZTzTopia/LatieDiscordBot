@@ -8,6 +8,7 @@ module.exports = (client) => {
             const evt = require(`../events/${dirs}/${file}`);
             let eName = file.split('.')[0];
             client.on(eName, evt.bind(null, client));
+            delete require.cache[require.resolve(`../events/${dirs}/${file}`)];
             console.log(`Events: ${eName} Loaded!`);
             count++;
         }

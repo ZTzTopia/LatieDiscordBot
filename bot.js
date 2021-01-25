@@ -2,7 +2,7 @@
 			Latie v0.1
 				Developed By ZTzTopia
 
-		Library: Discord.js
+		Library: Discord.js (12.5.1)
 		Database: MySql
 */
 
@@ -10,16 +10,10 @@
 const { Client, Collection } = require('discord.js');
 
 //Client
-const client = new Client({ fetchAllMembers: true });
-
-//Config token, prefix, ownerid, etc
-const { token, prefix, ownerID } = require('./config.json');
+const client = new Client();
 
 //MySql
 const db = require("./configdb.js");
-
-//node_modules
-require('dotenv').config();
 
 db.query('CREATE TABLE IF NOT EXISTS `xp` (\
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,\

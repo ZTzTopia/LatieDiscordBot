@@ -8,7 +8,7 @@ module.exports = {
     example: ['Im awesome?']
 };
 
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const errors = require("../../module/errors.js");
 const help = require("../../module/help.js");
 module.exports.run = async (client, message, args) => {
@@ -38,7 +38,7 @@ module.exports.run = async (client, message, args) => {
         "Very doubtful"
     ];
 
-    let ball = new RichEmbed()
+    let ball = new MessageEmbed()
         .addField(":8ball: 8ball", "Shaking the ball...")
         .setFooter(message.author.tag, message.author.avatarURL)
         .setTimestamp();
@@ -47,7 +47,7 @@ module.exports.run = async (client, message, args) => {
 
     setTimeout(function () {
         msg2.delete();
-        let ball2 = new RichEmbed()
+        let ball2 = new MessageEmbed()
             .addField(":8ball: 8ball", predictions[Math.floor(Math.random() * (predictions.length - 1) + 1)])
             .setFooter(message.author.tag, message.author.avatarURL)
             .setTimestamp();

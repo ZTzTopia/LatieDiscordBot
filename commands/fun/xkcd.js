@@ -8,7 +8,7 @@ module.exports = {
     example: ['latest', '453']
 };
 
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const got = require('got');
 const config = require('../../config.json');
 module.exports.run = async (bot, message, args) => {
@@ -23,13 +23,13 @@ module.exports.run = async (bot, message, args) => {
             const latest = await getLatest();
             const max = latest.num;
             if (id > max) {
-                let embed = new RichEmbed()
+                let embed = new MessageEmbed()
                     .setDescription(config.disagree + ' **' + message.author.tag + '** XkCd Only ' + max + ' Comics.')
 
                 return message.channel.send({ embed: embed });
             } else {
                 if (id < 1) {
-                    let embed = new RichEmbed()
+                    let embed = new MessageEmbed()
                         .setDescription(config.disagree + ' **' + message.author.tag + '** XkCd Comics Not Found.')
 
                     return message.channel.send({ embed: embed });
@@ -44,7 +44,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     const info = await getInfo(id);
-    let xkcd21 = new RichEmbed()
+    let xkcd21 = new MessageEmbed()
         .setTitle(`[${id}] ${info.title}`)
         .setURL(`http://xkcd.com/${id}`)
         .setDescription(`**` + info.alt + `**` || `Nothing`)

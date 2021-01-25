@@ -9,11 +9,11 @@ module.exports = {
 };
 
 var unirest = require('unirest');
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 module.exports.run = async (bot, message, args) => {
     unirest.get('https://api.bunnies.io/v2/loop/random/?media=webm,mp4')
         .end(result => {
-            var bunny21 = new RichEmbed()
+            var bunny21 = new MessageEmbed()
             .setTitle(`Bunny's #` + result.body.id)
             .setURL(`https://api.bunnies.io/v2/loop/` + result.body.id + `/?media=webm,mp4`)
             .setImage(result.body.media.poster)

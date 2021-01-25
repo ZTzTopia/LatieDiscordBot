@@ -1,4 +1,4 @@
-const { Client, RichEmbed } = require("discord.js");
+const { Client, MessageEmbed } = require("discord.js");
 const client = new Client();
 const config = require("../config.json");
 const db = require("../configdb.js");
@@ -37,7 +37,7 @@ module.exports.help = (message, name) => {
             }
         }
 
-        var help = new RichEmbed()
+        var help = new MessageEmbed()
             .setAuthor(`${prefix}${command.aliases.length === 0 ? command.name : `${command.name} / `} ${aliases.join(' / ')}`)
             .addField("Description", command.description)
             .addField("Cooldown", command.cooldown.length === 0 ? '3' : command.cooldown)

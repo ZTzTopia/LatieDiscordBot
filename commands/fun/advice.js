@@ -9,12 +9,12 @@ module.exports = {
 };
 
 var unirest = require('unirest');
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 module.exports.run = async (bot, message, args) => {
 	unirest.get('https://api.adviceslip.com/advice')
     .end(result => {
         var advice = JSON.parse(result.body);
-        var e = new RichEmbed()
+        var e = new MessageEmbed()
             .setTitle('Advice slip #' + advice.slip.id)
             .setDescription(advice.slip.advice)
             .setFooter('Powered by adviceslip.com')

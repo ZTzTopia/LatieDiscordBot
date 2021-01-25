@@ -9,7 +9,7 @@ module.exports = {
 };
 
 const fs = require('fs');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { prefix, modules } = require('../../config.json');
 module.exports.run = async (client, message, args, suffix) => {
     var error = 0;
@@ -38,7 +38,7 @@ module.exports.run = async (client, message, args, suffix) => {
                         message.channel.send("Couldn't find that modules.");
                     }
 
-                    const embed = new Discord.RichEmbed();
+                    const embed = new MessageEmbed();
                     commandFound = 0
                     for (var cmd in jsfile) {
                         command = require(`../${suffix}/${jsfile[cmd]}`);

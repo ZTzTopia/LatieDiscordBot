@@ -8,7 +8,7 @@ module.exports = {
     example: ['random', '1009826', 'vote', 'trend', 'hot', 'legend']
 };
 
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const unirest = require('unirest');
 const config = require('../../config.json');
 module.exports.run = async (bot, message, args) => {
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args) => {
     .end(result => {
         var onecak = result.body;
         console.log(result)
-        var e = new RichEmbed()
+        var e = new MessageEmbed()
             .setTitle(onecak.title + ' #' + onecak.id)
             .setImage(onecak.img)
             .setDescription(onecak.votes)
