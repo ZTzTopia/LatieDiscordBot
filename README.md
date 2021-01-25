@@ -14,5 +14,6 @@
 
 <h2>Running app</h2>
 <p>
-  `node shard.js`
+  ```js
+node shard.js```
 </p>
