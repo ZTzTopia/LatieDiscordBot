@@ -13,7 +13,5 @@
 </p>
 
 <h2>Running app</h2>
-<p>
-  ```js
+```js
 node shard.js```
-</p>
