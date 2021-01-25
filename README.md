@@ -1,6 +1,6 @@
 <h1>LatieDiscordBot</h1>
 <p>
-  <a href="https://github.com/ZTzTopia/LatieDiscordBot/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot" /></a>
+  <a href="https://github.com/ZTzTopia/LatieDiscordBot/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot" /></a></br>
   A discord bot that uses the discord.js library with modular programming.
 </p>
 
