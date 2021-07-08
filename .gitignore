@@ -1,0 +1,12 @@
+# Secret file
+.env
+
+# Node modules
+node_modules
+package-lock.json
+
+# Mac OS files
+.DS_Store
+
+# IDE
+.vscode
