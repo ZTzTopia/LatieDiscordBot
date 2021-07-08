@@ -1,5 +1,3 @@
-# LatieDiscordBot
-Discord Bot with Discord.js (11.5.1)
 <h1>LatieDiscordBot</h1>
 <p>
   <a href="https://github.com/ZTzTopia/LatieDiscordBot/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot" /></a>
