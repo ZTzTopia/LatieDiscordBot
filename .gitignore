@@ -1,0 +1,11 @@
+# dotenv environment variables file
+.env
+
+# Dependency directory
+node_modules
+
+# Editors
+.vscode
+
+# Built ts files
+dist
