@@ -12,7 +12,7 @@ export class Latie extends Client {
 	command: CommandManager;
 	mongoose: Mongoose;
 
-    public constructor() {
+	public constructor() {
 		super({
 			allowedMentions: {
 				parse: [ "roles", "users" ]
@@ -30,19 +30,10 @@ export class Latie extends Client {
 			]
 		});
 
-        // Load config file
-        this.config = config;
-		
-		// Load logger file
-        this.log = new Logger();
-
-		// Load events
+		this.config = config;
+		this.log = new Logger();
 		this.event = new EventManager(this);
-
-		// Load commands
 		this.command = new CommandManager(this);
-
-		// Load mongoose
 		this.mongoose = new Mongoose(this);
-    }
+	}
 }

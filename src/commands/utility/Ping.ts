@@ -10,6 +10,8 @@ export default class Ping extends CommandContext {
 	}
 
 	public async run(message: Message): Promise<void> {
-        await message.channel.send("Pong!");
+		await message.channel.send("\\🏓 Pinging...").then(async (msg: Message) => {
+			await msg.edit(`\\🏓 Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(this.client.ws.ping)}ms`);
+		});
     }
 }
