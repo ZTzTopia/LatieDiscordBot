@@ -2,7 +2,7 @@
 **Latie** is a open source Discord bot coded in TypeScript with Discord.js and MongoDB.<br>
 Feel free to add a star ⭐ to the repository to promote the project!
 
-[![License](https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot)](https://github.com/ZTzTopia/LatieDiscordBot/blob/master/LICENSE) [![Typescript](https://img.shields.io/badge/typescript-4.5.4-blue.svg?logo=typescript)](https://www.npmjs.com/package/discord.js) [![MongoDB](https://img.shields.io/badge/typescript-5.11.97-parakeet.svg?logo=mongodb)](https://www.npmjs.com/package/discord.js) [![Node.JS](https://img.shields.io/node/v/discord.js?logo=node.js)](https://www.npmjs.com/package/discord.js) [![Discord.JS](https://img.shields.io/npm/v/discord.js?label=discord.js&logo=npm)](https://www.npmjs.com/package/discord.js) [![CodeFactor](https://www.codefactor.io/repository/github/ZTzTopia/LatieDiscordBot/badge)](https://www.codefactor.io/repository/github/ZTzTopia/LatieDiscordBot)
+[![License](https://img.shields.io/github/license/ZTzTopia/LatieDiscordBot)](https://github.com/ZTzTopia/LatieDiscordBot/blob/master/LICENSE) [![Typescript](https://img.shields.io/badge/typescript-4.5.4-blue.svg?logo=typescript)](https://www.npmjs.com/package/discord.js) [![MongoDB](https://img.shields.io/badge/MongoDB-6.0.0rc2-parakeet.svg?logo=mongodb)](https://www.npmjs.com/package/discord.js) [![Node.JS](https://img.shields.io/node/v/discord.js?logo=node.js)](https://www.npmjs.com/package/discord.js) [![Discord.JS](https://img.shields.io/npm/v/discord.js?label=discord.js&logo=npm)](https://www.npmjs.com/package/discord.js) [![CodeFactor](https://www.codefactor.io/repository/github/ZTzTopia/LatieDiscordBot/badge)](https://www.codefactor.io/repository/github/ZTzTopia/LatieDiscordBot)
 
 ---
 
