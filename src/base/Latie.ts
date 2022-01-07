@@ -17,6 +17,7 @@ export class Latie extends Client {
 			allowedMentions: {
 				parse: [ "roles", "users" ]
 			},
+			partials: [ "CHANNEL" ],
 			presence: config.presence,
 			intents: [
 				Intents.FLAGS.GUILDS,
@@ -24,7 +25,8 @@ export class Latie extends Client {
 				Intents.FLAGS.GUILD_MESSAGES,
 				Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 				Intents.FLAGS.GUILD_VOICE_STATES,
-				Intents.FLAGS.DIRECT_MESSAGES
+				Intents.FLAGS.DIRECT_MESSAGES, 
+				Intents.FLAGS.DIRECT_MESSAGE_TYPING
 			]
 		});
 

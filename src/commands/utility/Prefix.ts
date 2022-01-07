@@ -6,7 +6,8 @@ import { IGuild } from "src/database/model/GuildModel";
 export default class Prefix extends CommandContext {
 	constructor (client: Latie) {
 		super(client, {
-			name: "prefix"
+			name: "prefix",
+			guildOnly: true
 		});
 	}
 
