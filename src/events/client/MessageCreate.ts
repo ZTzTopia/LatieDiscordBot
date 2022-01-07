@@ -33,7 +33,6 @@ export default class MessageCreate implements IEvent {
                 await CommandHandler.handle(this.client, message, guildData);
             }
             else {
-                console.log("lol");
                 await CommandHandler.handle(this.client, message);
             }
         }

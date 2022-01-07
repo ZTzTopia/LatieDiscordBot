@@ -4,6 +4,10 @@ import { Latie } from "../base/Latie";
 
 export default class CommandHandler {
     static async handle(client: Latie, message: Message, guildData?: IGuild) {
+        if (!message.content.startsWith(message.guild ? guildData?.prefix as string : client.config.prefix)) {
+            return;
+        }
+
         const args = message.content.slice(message.guild ? guildData?.prefix.length : client.config.prefix.length).split(/ +/);
         const commandName = args.shift()?.toLowerCase();
         const command = client.command.commands.get(commandName as string);
