@@ -1,18 +1,9 @@
 import { Guild, GuildMember, Message, TextChannel } from "discord.js";
-import { Latie } from "../../base/Latie";
 import CommandHandler from "../../commands/CommandHandler";
-import { IEvent } from "../../utils/Interfaces";
+import { EventContext } from "../EventContext";
 
-export default class MessageCreate implements IEvent {
-    client: Latie;
-
-    constructor(client: Latie) {
-		this.client = client;
-	}
-    
-    async run(args: any) {
-        const message: Message = args;
-        
+export default class MessageCreate extends EventContext {
+    public async run(message: Message) {
         if (!message.author.bot) {
             if (message.guild) {
                 if (!message.member) {

@@ -6,14 +6,29 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 13
+        "ecmaVersion": 13,
+        "project": "./tsconfig.json"
     },
     "plugins": [
         "@typescript-eslint"
     ],
-    "rules": {}
+    "rules": {
+        "indent": [
+            "warn",
+            4
+        ],
+        "quotes": [
+            "warn", 
+            "double"
+        ],
+        "semi": [
+            "warn", 
+            "always"
+        ]
+    }
 }

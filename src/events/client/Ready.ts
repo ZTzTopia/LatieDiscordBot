@@ -1,13 +1,6 @@
-import { Latie } from "../../base/Latie";
-import { IEvent } from "../../utils/Interfaces";
+import { EventContext } from "../EventContext";
 
-export default class Ready implements IEvent {
-	client: Latie;
-
-    public constructor(client: Latie) {
-		this.client = client;
-	}
-
+export default class Ready extends EventContext {
 	public async run(): Promise<void> {
 		const client = this.client;
 
