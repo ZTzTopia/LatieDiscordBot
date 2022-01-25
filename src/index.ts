@@ -7,27 +7,11 @@
 	Latie 3.0.0 By ZTzTopia.
 */
 
-import * as dotenv from "dotenv";
-import { Latie } from "./base/Latie"
-import mongoose from "mongoose";
+import "dotenv/config";
+import { Latie } from "./base/Latie";
 
-dotenv.config();
+const client = new Latie();
 
-import moment from "moment-timezone";
-moment.locale("en");
-moment.tz.setDefault("Asia/Jakarta");
-
-function main(): void {
-    const client = new Latie();
-
-    client.login(process.env.BOT_TOKEN).then(() => {
-        // Please create new database with name `discord-bot` without quote.
-        mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER as string}:${process.env.MONGODB_PASSWORD as string}@${process.env.MONGODB_CLUSTER as string}.mongodb.net/discord-bot?retryWrites=true&w=majority`).then(async () => {
-            client.log.i("Mongoose", "Connected to MongoDB.");
-            await client.event.load("./events/");
-            await client.command.load("./commands/");
-        }).catch((e: Error) => client.log.e("Mongoose", e.message));
-    }).catch((e: Error) => client.log.e("Bot", e.message));
-}
-
-main();
+// Please create new database with name `discord-bot` without quote.
+client.mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER as string}:${process.env.MONGODB_PASSWORD as string}@${process.env.MONGODB_CLUSTER as string}.mongodb.net/discord-bot?retryWrites=true&w=majority`);
+client.build("./commands/", "./events/");
