@@ -12,6 +12,11 @@ export default class Prefix extends CommandContext {
 	}
 
 	public async run(message: Message, args: string[]): Promise<void> {
+		if (!message.member?.permissions.has("MANAGE_GUILD")) {
+			await message.channel.send(`You don't have permission to use this command.`);
+			return;
+		}
+
 		if (!args[0]) {
 			await message.channel.send("You need to specify a new prefix.");
 			return;
