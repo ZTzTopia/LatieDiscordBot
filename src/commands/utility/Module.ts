@@ -36,9 +36,12 @@ export default class Module extends CommandContext {
 			commandList.push(command as CommandContext);
 		});
 
+		const guildData = await this.client.mongoose.fetchGuild(message.guild?.id as string);
+
 		const embed = new MessageEmbed()
 			.setTitle(`${args[0]}`)
-			.setDescription(commandList.map(command => command.context.name).join("\n"));
+			.setDescription(commandList.map(command => `${guildData.prefix}${command.context.name}`).join("\n"))
+			.setTimestamp();
 		await message.channel.send({ embeds: [embed] });
     }
 }

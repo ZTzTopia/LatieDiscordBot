@@ -8,5 +8,5 @@ export abstract class EventContext {
         this.client = client;
 	}
 
-	public abstract run(message: Message, args?: string[]): Promise<void>;
+	public abstract run(message: Message, args?: string[]): void;
 }

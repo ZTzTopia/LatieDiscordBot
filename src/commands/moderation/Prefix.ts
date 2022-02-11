@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { CommandContext } from "../CommandContext";
 import { Latie } from "../../base/Latie";
-import { IGuild } from "src/database/model/GuildModel";
+import { Guild } from "src/database/model/GuildModel";
 
 export default class Prefix extends CommandContext {
 	constructor (client: Latie) {
@@ -24,7 +24,7 @@ export default class Prefix extends CommandContext {
 
 		await this.client.mongoose.updateGuild(message.guild?.id as string, {
 			prefix: args[0]
-		} as IGuild);
+		} as Guild);
 		await message.channel.send(`Guild prefix updated to \`${args[0]}\``);
     }
 }

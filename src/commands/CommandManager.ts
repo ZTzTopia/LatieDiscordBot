@@ -4,6 +4,14 @@ import path from "path";
 import { Latie } from "../base/Latie";
 import { CommandContext } from "./CommandContext";
 
+interface Constructable<T> {
+    new(...args: unknown[]) : T;
+}
+
+type CommandType = {
+    default: Constructable<CommandContext>
+}
+
 export class CommandManager {
     private client: Latie;
     public commands: Collection<string, CommandContext>;
@@ -15,40 +23,31 @@ export class CommandManager {
         this.aliases = new Collection();
     }
 
-    public async load(commandBasePath: string) : Promise<void>;
-    public async load(commandPath: string, commandName: string) : Promise<string>;
-    public async load(a1: string, a2?: string): Promise<void | string> {
+    public load(commandBasePath: string) : void;
+    public load(commandPath: string, commandName: string) : void;
+    public load(a1: string, a2?: string): void | string {
         if (!a2) {
             a1 = path.join(__dirname, "../", `${a1}/`);
             
             readdirSync(a1).forEach(dirs => {
                 const dir = `${a1}${dirs}/`;
                 if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith('.js') || d.endsWith('.ts')).forEach(async (file) => {
+                    readdirSync(dir).filter(d => d.endsWith('.js') || d.endsWith('.ts')).forEach(file => {
                         const commandName: string = file.split('.')[0];
-                        const e: string = await this.load(`${dir}${file}`, commandName);
-                        if (e.length > 0) {
-                            this.client.log.e('Commands', e);
-                        }
+                        this.load(`${dir}${file}`, commandName);
                     });
                 }
             });
         }
         else {
-            this.client.log.d('LoadCommand', `Loading command: ${a2}.`);
+            import(`${a1}`).then((Command: CommandType) => {
+                const command = new Command.default(this.client);
 
-            try {
-                const Command = require(`${a1}`).default;
-                const command = new Command(this.client);
-
+                this.client.log.d('LoadCommand', `Loading command: ${a2}.`);
                 this.commands.set(a2.toLowerCase(), command);
 
                 delete require.cache[require.resolve(`${a1}`)];
-                return "";
-            } 
-            catch (e) {
-                return (e as Error).message;
-            }
+            }).catch((reason: Error) => this.client.log.e("Event", reason.message));
         }
     }
 }

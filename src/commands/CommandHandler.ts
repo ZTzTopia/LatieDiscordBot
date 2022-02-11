@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { IGuild } from "src/database/model/GuildModel";
+import { Guild } from "src/database/model/GuildModel";
 import { Latie } from "../base/Latie";
 
 export default class CommandHandler {
-    static async handle(client: Latie, message: Message, guildData?: IGuild) {
+    static async handle(client: Latie, message: Message, guildData?: Guild) {
         if (!message.content.startsWith(message.guild ? guildData?.prefix as string : client.config.prefix)) {
             return;
         }
@@ -20,11 +20,11 @@ export default class CommandHandler {
         }
 
         try {
-            await command.run(message, args);
+            command.run(message, args);
         } 
         catch (e) {
             client.log.e('CommandHandler', (e as Error).message);
-            message.channel.send(`Error: \`${(e as Error).message}\``);
+            await message.channel.send(`Error: \`${(e as Error).message}\``);
         }
     }
 }

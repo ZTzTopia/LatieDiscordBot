@@ -16,5 +16,5 @@ export abstract class CommandContext {
 		this.context = context;
 	}
 
-	public abstract run(message: Message, args?: string[]): Promise<void>;
+	public abstract run(message: Message, args?: string[]): void;
 }
