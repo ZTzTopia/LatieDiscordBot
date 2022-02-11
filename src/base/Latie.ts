@@ -15,7 +15,10 @@ export class Latie extends Client {
 	public constructor() {
 		super({
 			allowedMentions: {
-				parse: [ "roles", "users" ]
+				parse: [ 
+					"roles", 
+					"users" 
+				]
 			},
 			partials: [ "CHANNEL" ],
 			presence: config.presence,
@@ -35,5 +38,11 @@ export class Latie extends Client {
 		this.event = new EventManager(this);
 		this.command = new CommandManager(this);
 		this.mongoose = new Mongoose(this);
+	}
+
+	public build(cmddir: string, eventdir: string) {
+		this.command.load(cmddir);
+		this.event.load(eventdir);
+		super.login(process.env.BOT_TOKEN).catch((e: Error) => this.log.e("Bot", e.message));
 	}
 }
