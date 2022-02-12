@@ -3,6 +3,7 @@ import { Latie } from "../base/Latie";
 
 interface ICommandContext {
     name: string;
+	aliases?: string[];
 	description?: string;
 	guildOnly?: boolean;
 }
