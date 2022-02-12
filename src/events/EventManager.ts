@@ -4,7 +4,7 @@ import path from "path";
 import { Latie } from "../base/Latie";
 import { EventContext } from "./EventContext";
 
-interface Constructable<T> {
+type Constructable<T> = {
     new(...args: unknown[]) : T;
 }
 
@@ -20,10 +20,9 @@ export class EventManager {
     }
 
     public load(eventBasePath: string): void {
-        eventBasePath = path.join(__dirname, "../", `${eventBasePath}/`);
-
+        eventBasePath = path.join(__dirname, "../", `${eventBasePath}`);
         readdirSync(eventBasePath).forEach(dirs => {
-            const dir = `${eventBasePath}${dirs}`;
+            const dir = `${eventBasePath}/${dirs}`;
             if (statSync(dir).isDirectory()) {
                 readdirSync(dir).filter(d => d.endsWith('.js') || d.endsWith('.ts')).forEach(file => {
                     import(`${dir}/${file}`).then((Event: EventType) => {

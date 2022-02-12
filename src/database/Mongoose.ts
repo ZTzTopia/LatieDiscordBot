@@ -1,15 +1,19 @@
 import { Collection } from "discord.js";
 import { Latie } from "../base/Latie";
 import { guildModel, Guild } from "./model/GuildModel";
+import { memberModel, Member } from "./model/MemberModel";
 import mongoose from "mongoose";
 
 export class Mongoose {
     client: Latie;
     guildDataCache: Collection<string, Guild>;
+    // TODO: fix this to use id and guildId.
+    memberDataCache: Collection<{ id: string, guildId: string }, Member>;
 
     public constructor(client: Latie) {
         this.client = client;
         this.guildDataCache = new Collection();
+        this.memberDataCache = new Collection();
     }
 
     public connect(mongooseconnectionstring: string) {
@@ -41,5 +45,29 @@ export class Mongoose {
     public async updateGuild(guildId: string, guildData: Guild): Promise<void> {
         await guildModel.findOneAndUpdate({ id: guildId }, guildData).exec();
         this.guildDataCache.set(guildId, guildData);
+    }
+
+    public async fetchMember(memberId: string, guildId: string): Promise<Member> {
+        if (this.memberDataCache.has({ id: memberId, guildId: guildId })) {
+            return this.memberDataCache.get({ id: memberId, guildId: guildId }) as Member;
+        }
+
+        let memberData = await memberModel.findOne({ id: memberId, guildId: guildId }).exec();
+        if (!memberData) {
+            memberData = new memberModel({
+                id: memberId,
+                guildId: guildId
+            });
+
+            await memberData.save()
+        }
+
+        this.memberDataCache.set({ id: memberId, guildId: guildId }, memberData);
+        return memberData;
+    }
+
+    public async updateMember(memberId: string, guildId: string, memberData: Member): Promise<void> {
+        await memberModel.findOneAndUpdate({ id: memberId, guildId: guildId }, memberData).exec();
+        this.memberDataCache.set({ id: memberId, guildId: guildId }, memberData);
     }
 }
