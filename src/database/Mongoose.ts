@@ -7,8 +7,7 @@ import mongoose from "mongoose";
 export class Mongoose {
     client: Latie;
     guildDataCache: Collection<string, Guild>;
-    // TODO: fix this to use id and guildId.
-    memberDataCache: Collection<{ id: string, guildId: string }, Member>;
+    memberDataCache: Collection<string, Member>;
 
     public constructor(client: Latie) {
         this.client = client;
@@ -48,8 +47,8 @@ export class Mongoose {
     }
 
     public async fetchMember(memberId: string, guildId: string): Promise<Member> {
-        if (this.memberDataCache.has({ id: memberId, guildId: guildId })) {
-            return this.memberDataCache.get({ id: memberId, guildId: guildId }) as Member;
+        if (this.memberDataCache.has(memberId + guildId)) {
+            return this.memberDataCache.get(memberId + guildId) as Member;
         }
 
         let memberData = await memberModel.findOne({ id: memberId, guildId: guildId }).exec();
@@ -62,12 +61,12 @@ export class Mongoose {
             await memberData.save()
         }
 
-        this.memberDataCache.set({ id: memberId, guildId: guildId }, memberData);
+        this.memberDataCache.set(memberId + guildId, memberData);
         return memberData;
     }
 
     public async updateMember(memberId: string, guildId: string, memberData: Member): Promise<void> {
         await memberModel.findOneAndUpdate({ id: memberId, guildId: guildId }, memberData).exec();
-        this.memberDataCache.set({ id: memberId, guildId: guildId }, memberData);
+        this.memberDataCache.set(memberId + guildId, memberData);
     }
 }
