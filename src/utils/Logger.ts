@@ -30,13 +30,13 @@ export class Logger {
     
     private log(levels: "info" | "debug" | "error" | "warn" = "info", tag: string, ...message: unknown[]): void {
         console[levels](
-            `${levels === "debug" ? Colors.Grey : levels === "error" ? Colors.Red : levels === "warn" ? Colors.Yellow : Colors.Blue}[${this.formatDatetime("hh:ii:ss yyyy-mm-dd")}] ${levels}/${tag}: ${message.map((x) => String(x)).join(" ")} ${
+            `${levels === "debug" ? Colors.Grey : levels === "error" ? Colors.Red : levels === "warn" ? Colors.Yellow : Colors.Blue}[${this.formatDateTime("hh:ii:ss yyyy-mm-dd")}] ${levels}/${tag}: ${message.map((x) => String(x)).join(" ")} ${
                 Colors.Reset
             }`
         );
     }
 
-    private formatDatetime(format: string) {
+    private formatDateTime(format: string) {
         const date = new Date();
         const padStart = (value: number): string => value.toString().padStart(2, "0");
         return format

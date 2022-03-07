@@ -5,7 +5,7 @@ import { Latie } from "../base/Latie";
 export default class CommandHandler {
     static async handle(client: Latie, message: Message, guildData?: Guild) {
         const prefix = (message.guild ? guildData?.prefix : client.config.prefix) as string;
-        if (!message.content.startsWith(prefix) && message.content.length < prefix.length) {
+        if (!message.content.startsWith(prefix) && message.content.length > prefix.length) {
             return;
         }
 
