@@ -12,6 +12,16 @@ import { Latie } from "./base/Latie";
 
 const Client = new Latie();
 
-// Please create new database with name `discord-bot` without quote.
-Client.mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER as string}:${process.env.MONGODB_PASSWORD as string}@${process.env.MONGODB_CLUSTER as string}.mongodb.net/discord-bot?retryWrites=true&w=majority`);
+// Please create new database with name `discordBot` without quote.
+let usingSrv = true;
+let usingAuthentication = false;
+if (process.env.MONGODB_PORT as string) {
+    usingSrv = false;
+}
+
+if (process.env.MONGODB_USER as string) {
+    usingAuthentication = true;
+}
+
+Client.mongoose.connect(`mongodb${usingSrv ? "srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
 Client.build("./commands/", "./events/");
