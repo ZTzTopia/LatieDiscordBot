@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../../../base/Latie";
 
 export default class Help extends CommandContext {
 	constructor (client: Latie) {
@@ -21,7 +21,7 @@ export default class Help extends CommandContext {
             return;
 		}
 
-		const command = this.client.command.commands.get(args[0].toLowerCase());
+		const command = this.client.commandManager.commands.get(args[0].toLowerCase());
         if (!command) {
             await message.channel.send("Command not found");
             return;

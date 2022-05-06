@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, Interaction } from "discord.js";
 import { readdirSync, statSync } from "fs";
 import path from "path";
 import { Latie } from "../base/Latie";
@@ -19,7 +19,7 @@ export class EventManager {
         this.client = client;
     }
 
-    public load(eventBasePath: string): void {
+    public async load(eventBasePath: string): Promise<void> {
         eventBasePath = path.join(__dirname, "../", `${eventBasePath}`);
         readdirSync(eventBasePath).forEach(dirs => {
             const dir = `${eventBasePath}/${dirs}`;
@@ -30,7 +30,12 @@ export class EventManager {
                         const eventName: string = file.split('.')[0];
 
                         this.client.log.d('LoadEvent', `Loading event: ${eventName}.`);
-                        this.client.on(eventName.charAt(0).toLowerCase() + eventName.slice(1), (message: Message, ...args: string[]) => event.run(message, [...args]));
+                        if (eventName.charAt(0).toLowerCase() != "interactionCreate") {
+                            this.client.on(eventName.charAt(0).toLowerCase() + eventName.slice(1), (message: Message, ...args: string[]) => event.run(message, [...args]));
+                        }
+                        else {
+                            this.client.on(eventName.charAt(0).toLowerCase() + eventName.slice(1), (interaction: Interaction, ...args: string[]) => event.run(interaction, [...args]));
+                        }
                     
                         delete require.cache[require.resolve(`${dir}/${file}`)];
                     }).catch((reason: Error) => this.client.log.e("Event", reason.message));

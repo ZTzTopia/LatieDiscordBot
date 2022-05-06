@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Latie } from "../base/Latie";
+import { Latie } from "../../base/Latie";
 
 interface ICommandContext {
     name: string;

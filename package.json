@@ -23,7 +23,9 @@
     },
     "homepage": "https://github.com/ZTzTopia/LatieDiscordBot",
     "dependencies": {
+        "@discordjs/rest": "^0.4.1",
         "axios": "^0.25.0",
+        "discord-api-types": "^0.32.1",
         "discord.js": "^13.5.0",
         "dotenv": "^10.0.0",
         "fs": "0.0.1-security",

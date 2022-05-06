@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 export interface Member extends Document {
     id: string;
-    guild_id: string;
+    guildId: string;
     exp: number;
     level: number;
 } // Level of the user
@@ -11,7 +11,7 @@ const member = new Schema<Member>({
     id: { // Discord id of the user.
         type: String 
     },
-    guild_id: { // The guild discord id of this user.
+    guildId: { // The guild discord id of this user.
         type: String
     },
     exp: { 

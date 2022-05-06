@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../../../base/Latie";
 import os from "os"
 
 export default class Stats extends CommandContext {

@@ -1,8 +1,8 @@
 import { Collection } from "discord.js";
+import mongoose from "mongoose";
 import { Latie } from "../base/Latie";
 import { guildModel, Guild } from "./model/GuildModel";
 import { memberModel, Member } from "./model/MemberModel";
-import mongoose from "mongoose";
 
 export class Mongoose {
     client: Latie;

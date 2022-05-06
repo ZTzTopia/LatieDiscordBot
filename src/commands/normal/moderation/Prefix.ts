@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../../../base/Latie";
 import { Guild } from "src/database/model/GuildModel";
 
 export default class Prefix extends CommandContext {

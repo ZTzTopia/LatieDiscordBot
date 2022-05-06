@@ -24,4 +24,7 @@ if (process.env.MONGODB_USER as string) {
 }
 
 Client.mongoose.connect(`mongodb${usingSrv ? "srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
-Client.build("./commands/", "./events/");
+
+(async () => {
+    await Client.build("./normal/", "./slash/", "./events/");
+})().catch(console.error);

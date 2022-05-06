@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { Guild } from "src/database/model/GuildModel";
-import { Latie } from "../base/Latie";
+import { Latie } from "../../base/Latie";
 
 export default class CommandHandler {
     static async handle(client: Latie, message: Message, guildData?: Guild) {
@@ -11,7 +11,7 @@ export default class CommandHandler {
 
         const args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift()?.toLowerCase();
-        const command = client.command.commands.get(commandName as string) || client.command.commands.find(command => command.context.aliases != null && command.context.aliases.includes(commandName as string));
+        const command = client.commandManager.commands.get(commandName as string) || client.commandManager.commands.find(command => command.context.aliases != null && command.context.aliases.includes(commandName as string));
         if (!command) {
             return;
         }

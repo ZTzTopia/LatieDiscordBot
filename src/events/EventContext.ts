@@ -1,4 +1,3 @@
-import { Message } from "discord.js";
 import { Latie } from "../base/Latie";
 
 export abstract class EventContext {
@@ -8,5 +7,5 @@ export abstract class EventContext {
         this.client = client;
 	}
 
-	public abstract run(message: Message, args?: string[]): void;
+	public abstract run(unknown: unknown, args?: string[]): void;
 }

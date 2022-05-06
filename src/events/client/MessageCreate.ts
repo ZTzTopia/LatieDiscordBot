@@ -1,7 +1,7 @@
 import { GuildMember, Message, TextChannel } from "discord.js";
 import { Member } from "../../database/model/MemberModel";
 import { EventContext } from "../EventContext";
-import CommandHandler from "../../commands/CommandHandler";
+import CommandHandler from "../../commands/normal/CommandHandler";
 
 export default class MessageCreate extends EventContext {
     public async run(message: Message) {
@@ -40,17 +40,13 @@ export default class MessageCreate extends EventContext {
         const maxExp = 16;
         memberData.exp += Math.floor(Math.random() * (maxExp - minExp + 1)) + minExp;
 
-        /*
-            1 140
-            2 440
-            3 859
-            4 1381
-            5 1995
-         */
-        const neededExp = Math.round(Math.pow(Math.pow(20 * memberData.level, 1.5), 1.1));
+        const multiplier = 8.0;
+        const base = 100.0;
+        const neededExp = Math.round(Math.pow(multiplier * (memberData.level - 1), 2.0) + base);
 
         if (memberData.exp >= neededExp) {
             memberData.level += 1;
+            memberData.exp -= memberData.exp - neededExp < 0 ? 0 : neededExp;
             await message.channel.send(`Level up! ${memberData.level}`);
         }
 

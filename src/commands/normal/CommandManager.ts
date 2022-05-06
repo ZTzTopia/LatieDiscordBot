@@ -1,7 +1,7 @@
 import { Collection } from "discord.js";
 import { readdirSync, statSync } from "fs";
 import path from "path";
-import { Latie } from "../base/Latie";
+import { Latie } from "../../base/Latie";
 import { CommandContext } from "./CommandContext";
 
 type Constructable<T> = {
@@ -21,30 +21,34 @@ export class CommandManager {
         this.commands = new Collection();
     }
 
-    public load(commandBasePath: string) : void;
-    public load(commandPath: string, unknown: string) : void;
-    public load(a1: string, a2?: string): void | string {
+    public async load(commandBasePath: string): Promise<void>;
+    public async load(commandPath: string, unknown: string): Promise<void>;
+    public async load(a1: string, a2?: string): Promise<void | string> {
         if (!a2) {
             a1 = path.join(__dirname, "../", `${a1}`);
-            readdirSync(a1).forEach(dirs => {
+            readdirSync(a1).forEach(async dirs => {
                 const dir = `${a1}/${dirs}`;
                 if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith('.js') || d.endsWith('.ts')).forEach(file => {
-                        this.load(`${dir}/${file}`, "unknown");
+                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(async file => {
+                        await this.load(`${dir}/${file}`, "unknown");
                     });
                 }
             });
+
+            return Promise.resolve();
         }
         else {
             import(`${a1}`).then((Command: CommandType) => {
                 const command = new Command.default(this.client);
                 const commandName = command.context.name;
 
-                this.client.log.d('LoadCommand', `Loading command: ${commandName}.`);
+                this.client.log.d("LoadCommand", `Loading command: ${commandName}.`);
                 this.commands.set(commandName.toLowerCase(), command);
 
                 delete require.cache[require.resolve(`${a1}`)];
-            }).catch((reason: Error) => this.client.log.e("Event", reason.message));
+            }).catch((reason: Error) => this.client.log.e("LoadCommand", reason.message));
         }
+
+        return Promise.resolve();
     }
 }

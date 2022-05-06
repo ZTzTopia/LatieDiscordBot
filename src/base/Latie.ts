@@ -2,14 +2,16 @@ import { Client, Intents } from "discord.js";
 import { Config, config } from "../Config";
 import { Logger } from "../utils/Logger";
 import { EventManager } from "../events/EventManager";
-import { CommandManager } from "../commands/CommandManager";
+import { CommandManager } from "../commands/normal/CommandManager";
+import { SlashCommandManager } from "../commands/slash/SlashCommandManager";
 import { Mongoose } from "../database/Mongoose";
 
 export class Latie extends Client {
     config: Config;
 	log: Logger;
-	event: EventManager;
-	command: CommandManager;
+	eventManager: EventManager;
+	commandManager: CommandManager;
+	slashCommandManager: SlashCommandManager;
 	mongoose: Mongoose;
 
 	public constructor() {
@@ -35,14 +37,17 @@ export class Latie extends Client {
 
 		this.config = config;
 		this.log = new Logger();
-		this.event = new EventManager(this);
-		this.command = new CommandManager(this);
+		this.commandManager = new CommandManager(this);
+		this.slashCommandManager = new SlashCommandManager(this);
+		this.eventManager = new EventManager(this);
 		this.mongoose = new Mongoose(this);
 	}
 
-	public build(cmddir: string, eventdir: string) {
-		this.command.load(cmddir);
-		this.event.load(eventdir);
+	public async build(cmddir: string, slashcmddir: string, eventdir: string) {
+		await this.commandManager.load(cmddir);
+		await this.slashCommandManager.load(slashcmddir);
+		await this.slashCommandManager.post();
+		await this.eventManager.load(eventdir);
 		super.login(process.env.BOT_TOKEN).catch((e: Error) => this.log.e("Bot", e.message));
 	}
 }

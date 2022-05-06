@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { readdirSync } from "fs";
 import path from "path";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../../../base/Latie";
 
 export default class Module extends CommandContext {
 	constructor (client: Latie) {
@@ -32,7 +32,7 @@ export default class Module extends CommandContext {
 		const commandList: CommandContext[] = [];
 		files.forEach(file => {
 			const commandName = path.parse(file.toLowerCase()).name;
-			const command = this.client.command.commands.get(commandName);
+			const command = this.client.commandManager.commands.get(commandName);
 			commandList.push(command as CommandContext);
 		});
 
