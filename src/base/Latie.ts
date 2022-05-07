@@ -48,6 +48,6 @@ export class Latie extends Client {
 		await this.slashCommandManager.load(slashcmddir);
 		await this.slashCommandManager.post();
 		await this.eventManager.load(eventdir);
-		super.login(process.env.BOT_TOKEN).catch((e: Error) => this.log.e("Bot", e.message));
+		await super.login(process.env.BOT_TOKEN).catch((e: Error) => this.log.e("Bot", e.message));
 	}
 }

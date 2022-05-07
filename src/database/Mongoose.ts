@@ -15,8 +15,8 @@ export class Mongoose {
         this.memberDataCache = new Collection();
     }
 
-    public connect(mongooseconnectionstring: string) {
-        mongoose
+    public async connect(mongooseconnectionstring: string) {
+        await mongoose
             .connect(mongooseconnectionstring)
             .then(() => this.client.log.i("Database", "Succesfuly connected!"))
             .catch((e: Error) => this.client.log.e("Database", e.message));

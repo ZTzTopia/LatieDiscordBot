@@ -29,16 +29,14 @@ export class SlashCommandManager {
     public async load(a1: string, a2?: string): Promise<void | string> {
         if (!a2) {
             a1 = path.join(__dirname, "../", `${a1}`);
-            readdirSync(a1).forEach(async dirs => {
+            readdirSync(a1).forEach(dirs => {
                 const dir = `${a1}/${dirs}`;
                 if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(async file => {
-                        await this.load(`${dir}/${file}`, "unknown");
+                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
+                        this.load(`${dir}/${file}`, "unknown").catch(console.error);
                     });
                 }
             });
-
-            return Promise.resolve();
         }
         else {
             import(`${a1}`).then((Command: CommandType) => {
@@ -51,6 +49,8 @@ export class SlashCommandManager {
                 delete require.cache[require.resolve(`${a1}`)];
             }).catch((reason: Error) => this.client.log.e("LoadSlashCommand", reason.message));
         }
+
+        return Promise.resolve();
     }
 
     public async post() {
@@ -61,12 +61,12 @@ export class SlashCommandManager {
 
         const slashCommandsJSON: unknown[] = [];
         this.commands.forEach(command => {
-            if (!command.slashCommandBuilder.name) {
+            if (!command.data.name) {
                 this.client.log.e("PostSlashCommand", `Command ${command.context.name} has no name.`);
                 return;
             }
 
-            slashCommandsJSON.push(command.slashCommandBuilder.toJSON());
+            slashCommandsJSON.push(command.data.toJSON());
         });
 
         if (slashCommandsJSON.length == 0) {

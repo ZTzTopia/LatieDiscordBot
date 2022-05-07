@@ -1,4 +1,4 @@
-import { Interaction } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Latie } from "../../base/Latie";
 
@@ -9,13 +9,13 @@ interface ISlashCommandContext {
 export abstract class SlashCommandContext {
 	client: Latie;
 	context: ISlashCommandContext;
-	slashCommandBuilder: SlashCommandBuilder;
+	data: SlashCommandBuilder;
 
 	public constructor(client: Latie, context: ISlashCommandContext) {
 		this.client = client;
 		this.context = context;
-		this.slashCommandBuilder = new SlashCommandBuilder();
+		this.data = new SlashCommandBuilder();
 	}
 
-	public abstract run(Interaction: Interaction, args?: string[]): void;
+	public abstract run(commandInteraction: CommandInteraction): void;
 }

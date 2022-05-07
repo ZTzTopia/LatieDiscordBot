@@ -26,16 +26,14 @@ export class CommandManager {
     public async load(a1: string, a2?: string): Promise<void | string> {
         if (!a2) {
             a1 = path.join(__dirname, "../", `${a1}`);
-            readdirSync(a1).forEach(async dirs => {
+            readdirSync(a1).forEach(dirs => {
                 const dir = `${a1}/${dirs}`;
                 if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(async file => {
-                        await this.load(`${dir}/${file}`, "unknown");
+                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
+                        this.load(`${dir}/${file}`, "unknown").catch(console.error);
                     });
                 }
             });
-
-            return Promise.resolve();
         }
         else {
             import(`${a1}`).then((Command: CommandType) => {

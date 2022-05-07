@@ -46,7 +46,7 @@ export default class MessageCreate extends EventContext {
 
         if (memberData.exp >= neededExp) {
             memberData.level += 1;
-            memberData.exp -= memberData.exp - neededExp < 0 ? 0 : neededExp;
+            memberData.exp -= neededExp;
             await message.channel.send(`Level up! ${memberData.level}`);
         }
 

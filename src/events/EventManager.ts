@@ -19,17 +19,17 @@ export class EventManager {
         this.client = client;
     }
 
-    public async load(eventBasePath: string): Promise<void> {
+    public async load(eventBasePath: string) {
         eventBasePath = path.join(__dirname, "../", `${eventBasePath}`);
         readdirSync(eventBasePath).forEach(dirs => {
             const dir = `${eventBasePath}/${dirs}`;
             if (statSync(dir).isDirectory()) {
-                readdirSync(dir).filter(d => d.endsWith('.js') || d.endsWith('.ts')).forEach(file => {
+                readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
                     import(`${dir}/${file}`).then((Event: EventType) => {
                         const event = new Event.default(this.client);
-                        const eventName: string = file.split('.')[0];
+                        const eventName: string = file.split(".")[0];
 
-                        this.client.log.d('LoadEvent', `Loading event: ${eventName}.`);
+                        this.client.log.d("LoadEvent", `Loading event: ${eventName}.`);
                         if (eventName.charAt(0).toLowerCase() != "interactionCreate") {
                             this.client.on(eventName.charAt(0).toLowerCase() + eventName.slice(1), (message: Message, ...args: string[]) => event.run(message, [...args]));
                         }
@@ -42,5 +42,7 @@ export class EventManager {
                 });
             }
         });
+
+        return Promise.resolve();
     }
 }

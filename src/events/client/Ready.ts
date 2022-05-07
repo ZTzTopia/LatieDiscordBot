@@ -1,9 +1,9 @@
 import { EventContext } from "../EventContext";
 
 export default class Ready extends EventContext {
-	public run(): void {
+	public run() {
 		const client = this.client;
-
+        
 		client.log.i("Ready", `
   - User: ${client.user?.username as string}#${client.user?.discriminator as string} <ID: ${client.user?.id as string}>
   - Prefix: ${client.config.prefix}

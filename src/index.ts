@@ -4,7 +4,7 @@
      / /__/ /_/ / /_/ /  __/ /_/ / /_/ / /_  
     /_____|___/\__/_/\___/_____/\____/\__/ 
                                          
-	Latie 3.0.0 By ZTzTopia.
+	Latie 3.1.0 By ZTzTopia.
 */
 
 import "dotenv/config";
@@ -23,8 +23,7 @@ if (process.env.MONGODB_USER as string) {
     usingAuthentication = true;
 }
 
-Client.mongoose.connect(`mongodb${usingSrv ? "srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
-
 (async () => {
+    await Client.mongoose.connect(`mongodb${usingSrv ? "srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
     await Client.build("./normal/", "./slash/", "./events/");
 })().catch(console.error);

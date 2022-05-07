@@ -16,4 +16,4 @@ const guild = new Schema<Guild>({
     }
 })
 
-export const guildModel = model<Guild>('Guild', guild);
+export const guildModel = model<Guild>("Guild", guild);

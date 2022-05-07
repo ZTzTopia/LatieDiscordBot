@@ -24,7 +24,7 @@ export default class CommandHandler {
             command.run(message, args);
         } 
         catch (e) {
-            client.log.e('CommandHandler', (e as Error).message);
+            client.log.e("CommandHandler", (e as Error).message);
             await message.channel.send(`Error: \`${(e as Error).message}\``);
         }
     }

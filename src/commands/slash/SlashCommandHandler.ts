@@ -2,18 +2,18 @@ import { CommandInteraction } from "discord.js";
 import { Latie } from "../../base/Latie";
 
 export default class SlashCommandContext {
-    static async handle(client: Latie, interaction: CommandInteraction) {
-        const command = client.slashCommandManager.commands.get(interaction.commandName);
+    static async handle(client: Latie, commandInteraction: CommandInteraction) {
+        const command = client.slashCommandManager.commands.get(commandInteraction.commandName);
         if (!command) {
             return;
         }
 
         try {
-            command.run(interaction);
+            command.run(commandInteraction);
         } 
         catch (e) {
-            client.log.e('CommandHandler', (e as Error).message);
-            await interaction.reply(`Error: \`${(e as Error).message}\``);
+            client.log.e("CommandHandler", (e as Error).message);
+            await commandInteraction.reply(`Error: \`${(e as Error).message}\``);
         }
     }
 }

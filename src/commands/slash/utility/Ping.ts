@@ -8,14 +8,14 @@ export default class Ping extends SlashCommandContext {
 			name: "ping"
 		});
 
-		this.slashCommandBuilder.setName("ping")
+		this.data.setName("ping")
 			.setDescription("Pings the bot.");
 	}
 
-	public async run(interaction: CommandInteraction): Promise<void> {
-		const start = interaction.createdTimestamp;
-		await interaction.reply("\\🏓 Pinging...");
+	public async run(commandInteraction: CommandInteraction): Promise<void> {
+		const start = commandInteraction.createdTimestamp;
+		await commandInteraction.reply("\\🏓 Pinging...");
 		const end = new Date().getTime() - start;
-		await interaction.editReply(`\\🏓 Pong! Latency is ${end}ms. API Latency is ${Math.round(this.client.ws.ping)}ms`);
+		await commandInteraction.editReply(`\\🏓 Pong! Latency is ${end}ms. API Latency is ${Math.round(this.client.ws.ping)}ms`);
     }
 }
