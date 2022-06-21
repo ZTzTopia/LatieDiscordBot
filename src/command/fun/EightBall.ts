@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../../base/Latie";
+import { Latie } from "../../base/Latie";
 
 export default class EightBall extends CommandContext {
 	constructor (client: Latie) {

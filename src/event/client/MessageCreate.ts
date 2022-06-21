@@ -1,7 +1,7 @@
 import { GuildMember, Message, TextChannel } from "discord.js";
 import { Member } from "../../database/model/MemberModel";
 import { EventContext } from "../EventContext";
-import CommandHandler from "../../commands/normal/CommandHandler";
+import CommandHandler from "../../command/CommandHandler";
 
 export default class MessageCreate extends EventContext {
     public async run(message: Message) {

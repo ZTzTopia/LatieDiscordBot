@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { Guild } from "src/database/model/GuildModel";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../base/Latie";
 
 export default class CommandHandler {
     static async handle(client: Latie, message: Message, guildData?: Guild) {

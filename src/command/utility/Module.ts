@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { readdirSync } from "fs";
 import path from "path";
 import { CommandContext } from "../CommandContext";
-import { Latie } from "../../../base/Latie";
+import { Latie } from "../../base/Latie";
 
 export default class Module extends CommandContext {
 	constructor (client: Latie) {

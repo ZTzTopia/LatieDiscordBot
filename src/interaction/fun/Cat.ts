@@ -1,6 +1,6 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
-import { SlashCommandContext } from "../SlashCommandContext";
-import { Latie } from "../../../base/Latie";
+import { InteractionContext } from "../InteractionContext";
+import { Latie } from "../../base/Latie";
 import axios from "axios";
 
 type CatDataType = [
@@ -9,7 +9,7 @@ type CatDataType = [
     }
 ]
 
-export default class Cat extends SlashCommandContext {
+export default class Cat extends InteractionContext {
 	constructor (client: Latie) {
 		super(client, {
 			name: "cat"
@@ -19,8 +19,8 @@ export default class Cat extends SlashCommandContext {
             .setDescription("Gets a random cat picture.");
 	}
 
-	public async run(commandInteraction: CommandInteraction) {
-        await commandInteraction.reply("Fetching cat...");
+	public async run_command(interaction: CommandInteraction) {
+        await interaction.reply("Fetching cat...");
 
         const apiUrl = "https://api.thecatapi.com/v1/images/search";
         axios.get<CatDataType>(`${apiUrl}`).then(async res => {
@@ -29,9 +29,11 @@ export default class Cat extends SlashCommandContext {
                 .setDescription(`**[🐱 Meowww..](${data.url})**`)
                 .setImage(data.url)
                 .setTimestamp();
-            await commandInteraction.editReply({ content: "Found one!", embeds: [embed] });
+            await interaction.editReply({ content: "Found one!", embeds: [embed] });
         }).catch(err => {
             throw err;
         });
     }
+
+    run_button: undefined;
 }

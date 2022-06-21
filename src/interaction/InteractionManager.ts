@@ -3,29 +3,29 @@ import { Routes } from "discord-api-types/v9";
 import { REST } from "@discordjs/rest";
 import { readdirSync, statSync } from "fs";
 import path from "path";
-import { config } from "../../Config";
-import { Latie } from "../../base/Latie";
-import { SlashCommandContext } from "./SlashCommandContext";
+import { config } from "../Config";
+import { Latie } from "../base/Latie";
+import { InteractionContext } from "./InteractionContext";
 
 type Constructable<T> = {
     new(...args: unknown[]) : T;
 }
 
-type CommandType = {
-    default: Constructable<SlashCommandContext>
+type Type = {
+    default: Constructable<InteractionContext>
 }
 
-export class SlashCommandManager {
+export class InteractionManager {
     private client: Latie;
-    public commands: Collection<string, SlashCommandContext>;
+    public interactions: Collection<string, InteractionContext>;
 
     public constructor(client: Latie) {
         this.client = client;
-        this.commands = new Collection();
+        this.interactions = new Collection();
     }
 
-    public async load(commandBasePath: string): Promise<void>;
-    public async load(commandPath: string, unknown: string): Promise<void>;
+    public async load(interactionBasePath: string): Promise<void>;
+    public async load(interactionPath: string, unknown: string): Promise<void>;
     public async load(a1: string, a2?: string): Promise<void | string> {
         if (!a2) {
             a1 = path.join(__dirname, "../", `${a1}`);
@@ -39,38 +39,38 @@ export class SlashCommandManager {
             });
         }
         else {
-            import(`${a1}`).then((Command: CommandType) => {
-                const command = new Command.default(this.client);
+            import(`${a1}`).then((interaction: Type) => {
+                const command = new interaction.default(this.client);
                 const commandName = command.context.name;
 
-                this.client.log.d("LoadSlashCommand", `Loading command: ${commandName}.`);
-                this.commands.set(commandName.toLowerCase(), command);
+                this.client.log.d("LoadInteraction", `Loading command: ${commandName}.`);
+                this.interactions.set(commandName.toLowerCase(), command);
 
                 delete require.cache[require.resolve(`${a1}`)];
-            }).catch((reason: Error) => this.client.log.e("LoadSlashCommand", reason.message));
+            }).catch((reason: Error) => this.client.log.e("LoadInteraction", reason.message));
         }
 
         return Promise.resolve();
     }
 
     public async post() {
-        if (this.commands.size == 0) {
-            this.client.log.e("PostSlashCommand", "No slash commands loaded.");
+        if (this.interactions.size == 0) {
+            this.client.log.e("PostInteraction", "No Interaction commands loaded.");
             return;
         }
 
-        const slashCommandsJSON: unknown[] = [];
-        this.commands.forEach(command => {
+        const InteractionsJSON: unknown[] = [];
+        this.interactions.forEach(command => {
             if (!command.data.name) {
-                this.client.log.e("PostSlashCommand", `Command ${command.context.name} has no name.`);
+                this.client.log.e("PostInteraction", ` ${command.context.name} has no name.`);
                 return;
             }
 
-            slashCommandsJSON.push(command.data.toJSON());
+            InteractionsJSON.push(command.data.toJSON());
         });
 
-        if (slashCommandsJSON.length == 0) {
-            this.client.log.e("PostSlashCommand", "No slash commands loaded.");
+        if (InteractionsJSON.length == 0) {
+            this.client.log.e("PostInteraction", "No Interaction commands loaded.");
             return;
         }
 
@@ -80,18 +80,18 @@ export class SlashCommandManager {
             if (config.globalSlashCommands) {
                 await rest.put(
                     Routes.applicationCommands(config.clientId),
-                    { body: slashCommandsJSON },
+                    { body: InteractionsJSON },
                 );
             }
             else {
                 await rest.put(
                     Routes.applicationGuildCommands(config.clientId, config.guildId),
-                    { body: slashCommandsJSON },
+                    { body: InteractionsJSON },
                 );
             }
         }
         catch (error) {
-            this.client.log.e("PostSlashCommand", error);
+            this.client.log.e("PostInteraction", error);
         }
 	}
 }

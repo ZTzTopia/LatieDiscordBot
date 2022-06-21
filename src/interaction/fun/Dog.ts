@@ -1,13 +1,13 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
-import { SlashCommandContext } from "../SlashCommandContext";
-import { Latie } from "../../../base/Latie";
+import { InteractionContext } from "../InteractionContext";
+import { Latie } from "../../base/Latie";
 import axios from "axios";
 
 type DogDataType = {
     message: string
 }
 
-export default class Dog extends SlashCommandContext {
+export default class Dog extends InteractionContext {
 	constructor (client: Latie) {
 		super(client, {
 			name: "dog"
@@ -17,8 +17,8 @@ export default class Dog extends SlashCommandContext {
             .setDescription("Gets a random dog picture.");
 	}
 
-	public async run(commandInteraction: CommandInteraction) {
-        await commandInteraction.reply("Fetching dog...");
+	public async run_command(interaction: CommandInteraction) {
+        await interaction.reply("Fetching dog...");
 
         const apiUrl = "https://dog.ceo/api/breeds/image/random";
         axios.get<DogDataType>(`${apiUrl}`).then(async res => {
@@ -27,9 +27,12 @@ export default class Dog extends SlashCommandContext {
                 .setDescription(`**[🐶 Woof!](${data.message})**`)
                 .setImage(data.message)
                 .setTimestamp();
-            await commandInteraction.editReply({ content: "Found one!", embeds: [embed] });
+
+            await interaction.editReply({ content: "Found one!", embeds: [embed] });
         }).catch(err => {
             throw err;
         });
     }
+
+    run_button: undefined;
 }

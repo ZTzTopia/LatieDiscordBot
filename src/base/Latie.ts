@@ -1,9 +1,9 @@
 import { Client, Intents } from "discord.js";
 import { Config, config } from "../Config";
 import { Logger } from "../utils/Logger";
-import { EventManager } from "../events/EventManager";
-import { CommandManager } from "../commands/normal/CommandManager";
-import { SlashCommandManager } from "../commands/slash/SlashCommandManager";
+import { EventManager } from "../event/EventManager";
+import { CommandManager } from "../command/CommandManager";
+import { InteractionManager } from "../interaction/InteractionManager";
 import { Mongoose } from "../database/Mongoose";
 
 export class Latie extends Client {
@@ -11,7 +11,7 @@ export class Latie extends Client {
 	log: Logger;
 	eventManager: EventManager;
 	commandManager: CommandManager;
-	slashCommandManager: SlashCommandManager;
+	interactionManager: InteractionManager;
 	mongoose: Mongoose;
 
 	public constructor() {
@@ -38,16 +38,16 @@ export class Latie extends Client {
 		this.config = config;
 		this.log = new Logger();
 		this.commandManager = new CommandManager(this);
-		this.slashCommandManager = new SlashCommandManager(this);
+		this.interactionManager = new InteractionManager(this);
 		this.eventManager = new EventManager(this);
 		this.mongoose = new Mongoose(this);
 	}
 
-	public async build(cmddir: string, slashcmddir: string, eventdir: string) {
-		await this.commandManager.load(cmddir);
-		await this.slashCommandManager.load(slashcmddir);
-		await this.slashCommandManager.post();
-		await this.eventManager.load(eventdir);
+	public async build(eventPath: string, commandPath: string, interactionPath: string) {
+		await this.eventManager.load(eventPath);
+		await this.commandManager.load(commandPath);
+		await this.interactionManager.load(interactionPath);
+		await this.interactionManager.post();
 		await super.login(process.env.BOT_TOKEN).catch((e: Error) => this.log.e("Bot", e.message));
 	}
 }

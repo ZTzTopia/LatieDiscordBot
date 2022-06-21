@@ -1,7 +1,7 @@
 import { Collection } from "discord.js";
 import { readdirSync, statSync } from "fs";
 import path from "path";
-import { Latie } from "../../base/Latie";
+import { Latie } from "../base/Latie";
 import { CommandContext } from "./CommandContext";
 
 type Constructable<T> = {
