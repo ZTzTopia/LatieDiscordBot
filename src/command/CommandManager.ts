@@ -1,55 +1,54 @@
 import path from "path";
-import { Collection } from "discord.js";
-import { readdirSync, statSync } from "fs";
-import { Latie } from "../base/Latie";
-import { CommandContext } from "./CommandContext";
+import {Collection} from "discord.js";
+import {readdirSync, statSync} from "fs";
+import {Latie} from "../base/Latie";
+import {CommandContext} from "./CommandContext";
 
 type Constructable<T> = {
-    new(...args: unknown[]) : T;
+  new(...args: unknown[]): T;
 }
 
 type CommandType = {
-    default: Constructable<CommandContext>
+  default: Constructable<CommandContext>
 }
 
 export class CommandManager {
-    private client: Latie;
-    public commands: Collection<string, CommandContext>;
+  private client: Latie;
+  public commands: Collection<string, CommandContext>;
 
-    public constructor(client: Latie) {
-        this.client = client;
-        this.commands = new Collection();
-    }
+  public constructor(client: Latie) {
+    this.client = client;
+    this.commands = new Collection();
+  }
 
-    public async load(commandBasePath: string): Promise<void>;
-    public async load(commandPath: string, unknown: string): Promise<void>;
-    public async load(a1: string, a2?: string): Promise<void | string> {
-        if (a2 != "unknown") {
-            a1 = path.join(__dirname, "../", `${a1}`);
-            readdirSync(a1).forEach(dirs => {
-                const dir = `${a1}/${dirs}`;
-                if (!statSync(dir).isDirectory()) {
-                    return;
-                }
-
-                readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
-                    this.load(`${dir}/${file}`, "unknown").catch(console.error);
-                });
-            });
-        }
-        else {
-            import(`${a1}`).then((Command: CommandType) => {
-                const commandFileName = path.parse(a1).name;
-                const command = new Command.default(this.client);
-                const commandName = command.context.name;
-
-                this.client.log.d("LoadCommand", `Loading command: ${commandName}.`);
-                this.commands.set(commandFileName.toLowerCase(), command);
-
-                delete require.cache[require.resolve(`${a1}`)];
-            }).catch((reason: Error) => this.client.log.e("LoadCommand", reason.message));
+  public async load(commandBasePath: string): Promise<void>;
+  public async load(commandPath: string, unknown: string): Promise<void>;
+  public async load(a1: string, a2?: string): Promise<void | string> {
+    if (a2 != "unknown") {
+      a1 = path.join(__dirname, "../", `${a1}`);
+      readdirSync(a1).forEach(dirs => {
+        const dir = `${a1}/${dirs}`;
+        if (!statSync(dir).isDirectory()) {
+          return;
         }
 
-        return Promise.resolve();
+        readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
+          this.load(`${dir}/${file}`, "unknown").catch(console.error);
+        });
+      });
+    } else {
+      import(`${a1}`).then((Command: CommandType) => {
+        const commandFileName = path.parse(a1).name;
+        const command = new Command.default(this.client);
+        const commandName = command.context.name;
+
+        this.client.log.d("LoadCommand", `Loading command: ${commandName}.`);
+        this.commands.set(commandFileName.toLowerCase(), command);
+
+        delete require.cache[require.resolve(`${a1}`)];
+      }).catch((reason: Error) => this.client.log.e("LoadCommand", reason.message));
     }
+
+    return Promise.resolve();
+  }
 }

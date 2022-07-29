@@ -1,11 +1,11 @@
-import { Latie } from "../base/Latie";
+import {Latie} from "../base/Latie";
 
 export abstract class EventContext {
-	client: Latie;
+  client: Latie;
 
-	public constructor(client: Latie) {
-        this.client = client;
-	}
+  public constructor(client: Latie) {
+    this.client = client;
+  }
 
-	public abstract run(unknown?: unknown, args?: string[]): void;
+  public abstract run(unknown?: unknown, args?: string[]): void;
 }
