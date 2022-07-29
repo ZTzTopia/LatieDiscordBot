@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { CommandContext } from "../CommandContext";
 import { Latie } from "../../base/Latie";
 
@@ -39,10 +39,10 @@ export default class EightBall extends CommandContext {
 		]
 
 		const response = responses[Math.floor(Math.random() * responses.length)];
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle("8ball")
 			.setDescription(response)
 			.setTimestamp();
-		await message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
     }
 }

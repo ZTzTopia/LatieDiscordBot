@@ -12,7 +12,7 @@ export enum Colors {
 export class Logger {
     public d(tag: string, ...message: unknown[]): void {
         if (config.debug) {
-          this.log("debug", tag, message);
+            this.log("debug", tag, message);
         }
     }
     

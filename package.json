@@ -1,6 +1,6 @@
 {
     "name": "latie",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "Latie Discord Bot",
     "main": "dist/index.js",
     "scripts": {
@@ -24,17 +24,17 @@
     "homepage": "https://github.com/ZTzTopia/LatieDiscordBot",
     "dependencies": {
         "@discordjs/rest": "^0.4.1",
+        "@types/dotenv": "^8.2.0",
         "axios": "^0.25.0",
         "discord-api-types": "^0.32.1",
-        "discord.js": "^13.6.0",
-        "dotenv": "^10.0.0",
+        "discord.js": "^14.1.1",
         "fs": "0.0.1-security",
         "mongoose": "^6.0.0-rc2"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.9.0",
         "@typescript-eslint/parser": "^5.9.0",
-        "eslint": "^7.32.0",
+        "eslint": "^8.18.0",
         "eslint-config-standard": "^16.0.3",
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-node": "^11.1.0",

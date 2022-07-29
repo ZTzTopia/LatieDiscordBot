@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js";
+import axios from "axios";
+import { Message, EmbedBuilder } from "discord.js";
 import { CommandContext } from "../CommandContext";
 import { Latie } from "../../base/Latie";
-import axios from "axios";
 
 type AdviceDataType = {
     message: {
@@ -44,7 +44,7 @@ export default class Advice extends CommandContext {
                 return;
             }
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle(`Advice #${data.slip?.id ? data.slip.id : data.slips[0].id}`)
                 .setDescription(data.slip?.advice ? data.slip.advice : data.slips[0].advice)
                 .setTimestamp();

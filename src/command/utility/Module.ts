@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { readdirSync } from "fs";
 import path from "path";
 import { CommandContext } from "../CommandContext";
@@ -15,7 +15,7 @@ export default class Module extends CommandContext {
 		const modules = readdirSync(path.join(__dirname, "../")).filter(file => !file.endsWith(".ts"));
 
 		if (!args[0]) {
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 				.setTitle("Modules")
 				.setDescription(modules.join("\n"));
 			await message.channel.send({ embeds: [embed] });
@@ -31,16 +31,20 @@ export default class Module extends CommandContext {
 		
 		const commandList: CommandContext[] = [];
 		files.forEach(file => {
-			const commandName = path.parse(file.toLowerCase()).name;
-			const command = this.client.commandManager.commands.get(commandName);
+			const commandFileName = path.parse(file).name;
+			const command = this.client.commandManager.commands.get(commandFileName.toLowerCase());
 			commandList.push(command as CommandContext);
 		});
 
-		const guildData = await this.client.mongoose.fetchGuild(message.guild?.id as string);
+		if (commandList.length === 0) {
+			await message.channel.send("No commands found");
+			return;
+		}
 
-		const embed = new MessageEmbed()
+		const guildData = await this.client.mongoose.fetchGuild(message.guild?.id as string);
+		const embed = new EmbedBuilder()
 			.setTitle(`${args[0]}`)
-			.setDescription(commandList.map(command => `${guildData.prefix}${command.context.name}`).join("\n"))
+			.setDescription(commandList.map(command => command ? `${guildData.prefix}${command.context.name}` : "").join("\n"))
 			.setTimestamp();
 		await message.channel.send({ embeds: [embed] });
     }

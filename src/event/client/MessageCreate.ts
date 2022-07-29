@@ -1,4 +1,4 @@
-import { GuildMember, Message, TextChannel } from "discord.js";
+import { GuildMember, Message, TextChannel, PermissionFlagsBits } from "discord.js";
 import { Member } from "../../database/model/MemberModel";
 import { EventContext } from "../EventContext";
 import CommandHandler from "../../command/CommandHandler";
@@ -8,7 +8,7 @@ export default class MessageCreate extends EventContext {
         if (message.author.bot) {
             return;
         }
-        
+
         if (!message.guild) {
             await CommandHandler.handle(this.client, message);
             return;
@@ -18,8 +18,8 @@ export default class MessageCreate extends EventContext {
             await message.guild.members.fetch(message.author.id);
         }
 
-        const self = message.guild.me as GuildMember;
-        if (!self.permissions.has('SEND_MESSAGES') || !(message.channel as TextChannel).permissionsFor(self)?.has('SEND_MESSAGES')) {
+        const self = message.guild.members.me as GuildMember;
+        if (!self.permissions.has(PermissionFlagsBits.SendMessages) || !(message.channel as TextChannel).permissionsFor(self)?.has(PermissionFlagsBits.SendMessages)) {
             return;
         }
 

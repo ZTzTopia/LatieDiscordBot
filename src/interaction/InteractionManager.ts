@@ -31,11 +31,13 @@ export class InteractionManager {
             a1 = path.join(__dirname, "../", `${a1}`);
             readdirSync(a1).forEach(dirs => {
                 const dir = `${a1}/${dirs}`;
-                if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
-                        this.load(`${dir}/${file}`, "unknown").catch(console.error);
-                    });
+                if (!statSync(dir).isDirectory()) {
+                    return;
                 }
+
+                readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
+                    this.load(`${dir}/${file}`, "unknown").catch(console.error);
+                });
             });
         }
         else {

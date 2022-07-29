@@ -1,13 +1,13 @@
-import { Client, Intents } from "discord.js";
-import { Config, config } from "../Config";
-import { Logger } from "../utils/Logger";
-import { EventManager } from "../event/EventManager";
-import { CommandManager } from "../command/CommandManager";
-import { InteractionManager } from "../interaction/InteractionManager";
-import { Mongoose } from "../database/Mongoose";
+import {Client, GatewayIntentBits, Partials} from "discord.js";
+import {Config, config} from "../Config";
+import {Logger} from "../utils/Logger";
+import {EventManager} from "../event/EventManager";
+import {CommandManager} from "../command/CommandManager";
+import {InteractionManager} from "../interaction/InteractionManager";
+import {Mongoose} from "../database/Mongoose";
 
 export class Latie extends Client {
-    config: Config;
+	config: Config;
 	log: Logger;
 	eventManager: EventManager;
 	commandManager: CommandManager;
@@ -22,16 +22,18 @@ export class Latie extends Client {
 					"users" 
 				]
 			},
-			partials: [ "CHANNEL" ],
+			partials: [ Partials.Channel ],
 			presence: config.presence,
 			intents: [
-				Intents.FLAGS.GUILDS,
-				Intents.FLAGS.GUILD_MEMBERS,
-				Intents.FLAGS.GUILD_MESSAGES,
-				Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-				Intents.FLAGS.GUILD_VOICE_STATES,
-				Intents.FLAGS.DIRECT_MESSAGES, 
-				Intents.FLAGS.DIRECT_MESSAGE_TYPING
+				GatewayIntentBits.Guilds,
+				GatewayIntentBits.GuildMembers,
+				GatewayIntentBits.GuildMessages,
+				GatewayIntentBits.GuildMessageReactions,
+				GatewayIntentBits.GuildMessageTyping,
+				GatewayIntentBits.DirectMessages,
+				GatewayIntentBits.DirectMessageReactions,
+				GatewayIntentBits.DirectMessageTyping,
+				GatewayIntentBits.MessageContent,
 			]
 		});
 

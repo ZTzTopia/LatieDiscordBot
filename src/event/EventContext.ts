@@ -7,5 +7,5 @@ export abstract class EventContext {
         this.client = client;
 	}
 
-	public abstract run(unknown: unknown, args?: string[]): void;
+	public abstract run(unknown?: unknown, args?: string[]): void;
 }

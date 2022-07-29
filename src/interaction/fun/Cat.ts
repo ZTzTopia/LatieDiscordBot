@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { InteractionContext } from "../InteractionContext";
 import { Latie } from "../../base/Latie";
 import axios from "axios";
@@ -25,7 +25,7 @@ export default class Cat extends InteractionContext {
         const apiUrl = "https://api.thecatapi.com/v1/images/search";
         axios.get<CatDataType>(`${apiUrl}`).then(async res => {
             const data = res.data[0];
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`**[🐱 Meowww..](${data.url})**`)
                 .setImage(data.url)
                 .setTimestamp();

@@ -4,23 +4,23 @@ import { Latie } from "../base/Latie";
 
 export default class CommandHandler {
     static async handle(client: Latie, message: Message, guildData?: Guild) {
-        const prefix = (message.guild ? guildData?.prefix : client.config.prefix) as string;
-        if (!message.content.startsWith(prefix)) {
-            return;
-        }
-
-        const args = message.content.slice(prefix.length).split(/ +/);
-        const commandName = args.shift()?.toLowerCase();
-        const command = client.commandManager.commands.get(commandName as string) || client.commandManager.commands.find(command => command.context.aliases != null && command.context.aliases.includes(commandName as string));
-        if (!command) {
-            return;
-        }
-
-        if (!message.guild && command.context.guildOnly) {
-            return;
-        }
-
         try {
+            const prefix = (message.guild ? guildData?.prefix : client.config.prefix) as string;
+            if (!message.content.startsWith(prefix)) {
+                return;
+            }
+
+            const args = message.content.slice(prefix.length).split(/ +/);
+            const commandName = args.shift()?.toLowerCase();
+            const command = client.commandManager.commands.get(commandName as string) || client.commandManager.commands.find(command => command.context.aliases != null && command.context.aliases.includes(commandName as string));
+            if (!command) {
+                return;
+            }
+
+            if (!message.guild && command.context.guildOnly) {
+                return;
+            }
+
             command.run(message, args);
         } 
         catch (e) {

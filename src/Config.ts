@@ -1,4 +1,4 @@
-import { PresenceData } from "discord.js";
+import {ActivityType, PresenceData} from "discord.js";
 
 export type Config = {
     /* Enable the debug */
@@ -37,6 +37,6 @@ export const config: Config = {
 config.presence.activities = [
     { 
         name: config.prefix + "help",
-        type: "LISTENING"
+        type: ActivityType.Listening
     }
 ];

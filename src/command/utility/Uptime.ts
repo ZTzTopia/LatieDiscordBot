@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import { CommandContext } from "../CommandContext";
 import { Latie } from "../../base/Latie";
 
@@ -18,7 +18,7 @@ export default class Uptime extends CommandContext {
         const seconds = date.getUTCSeconds();
         const formatted = `${days > 0 ? `${days} days, ` : ""}${hours > 0 ? `${hours} hours, ` : ""}${minutes > 0 ? `${minutes} minutes, ` : ""}${seconds > 0 ? `${seconds} seconds ` : ""}`;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle("Uptime")
             .setDescription(`I have been online for ${formatted}`)
             .setFooter({

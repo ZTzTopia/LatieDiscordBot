@@ -16,8 +16,12 @@ export class Mongoose {
     }
 
     public async connect(connectionString: string) {
+        this.client.log.i("Database", "Connecting to database...");
         await mongoose
-            .connect(connectionString)
+            .connect(connectionString, {
+                compressors: [ "zlib" ],
+                zlibCompressionLevel: 9
+            })
             .then(() => this.client.log.i("Database", "Succesfuly connected!"))
             .catch((e: Error) => this.client.log.e("Database", e.message));
     }
@@ -42,13 +46,13 @@ export class Mongoose {
     }
 
     public async updateGuild(guildId: string, guildData: Guild): Promise<void> {
-        await guildModel.findOneAndUpdate({ id: guildId }, guildData).exec();
+        await guildModel.updateOne({ id: guildId }, guildData).exec();
         this.guildDataCache.set(guildId, guildData);
     }
 
     public async fetchMember(memberId: string, guildId: string): Promise<Member> {
-        if (this.memberDataCache.has(memberId + guildId)) {
-            return this.memberDataCache.get(memberId + guildId) as Member;
+        if (this.memberDataCache.has(`${memberId}${guildId}`)) {
+            return this.memberDataCache.get(`${memberId}${guildId}`) as Member;
         }
 
         let memberData = await memberModel.findOne({ id: memberId, guildId: guildId }).exec();
@@ -61,12 +65,12 @@ export class Mongoose {
             await memberData.save()
         }
 
-        this.memberDataCache.set(memberId + guildId, memberData);
+        this.memberDataCache.set(`${memberId}${guildId}`, memberData);
         return memberData;
     }
 
     public async updateMember(memberId: string, guildId: string, memberData: Member): Promise<void> {
-        await memberModel.findOneAndUpdate({ id: memberId, guildId: guildId }, memberData).exec();
-        this.memberDataCache.set(memberId + guildId, memberData);
+        await memberModel.updateOne({ id: memberId, guildId: guildId }, memberData).exec();
+        this.memberDataCache.set(`${memberId}${guildId}`, memberData);
     }
 }

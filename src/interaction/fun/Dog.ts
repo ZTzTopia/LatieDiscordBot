@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { InteractionContext } from "../InteractionContext";
 import { Latie } from "../../base/Latie";
 import axios from "axios";
@@ -23,7 +23,7 @@ export default class Dog extends InteractionContext {
         const apiUrl = "https://dog.ceo/api/breeds/image/random";
         axios.get<DogDataType>(`${apiUrl}`).then(async res => {
             const data = res.data;
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setDescription(`**[🐶 Woof!](${data.message})**`)
                 .setImage(data.message)
                 .setTimestamp();

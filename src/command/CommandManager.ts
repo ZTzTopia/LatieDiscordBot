@@ -1,6 +1,6 @@
+import path from "path";
 import { Collection } from "discord.js";
 import { readdirSync, statSync } from "fs";
-import path from "path";
 import { Latie } from "../base/Latie";
 import { CommandContext } from "./CommandContext";
 
@@ -24,24 +24,27 @@ export class CommandManager {
     public async load(commandBasePath: string): Promise<void>;
     public async load(commandPath: string, unknown: string): Promise<void>;
     public async load(a1: string, a2?: string): Promise<void | string> {
-        if (!a2) {
+        if (a2 != "unknown") {
             a1 = path.join(__dirname, "../", `${a1}`);
             readdirSync(a1).forEach(dirs => {
                 const dir = `${a1}/${dirs}`;
-                if (statSync(dir).isDirectory()) {
-                    readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
-                        this.load(`${dir}/${file}`, "unknown").catch(console.error);
-                    });
+                if (!statSync(dir).isDirectory()) {
+                    return;
                 }
+
+                readdirSync(dir).filter(d => d.endsWith(".js") || d.endsWith(".ts")).forEach(file => {
+                    this.load(`${dir}/${file}`, "unknown").catch(console.error);
+                });
             });
         }
         else {
             import(`${a1}`).then((Command: CommandType) => {
+                const commandFileName = path.parse(a1).name;
                 const command = new Command.default(this.client);
                 const commandName = command.context.name;
 
                 this.client.log.d("LoadCommand", `Loading command: ${commandName}.`);
-                this.commands.set(commandName.toLowerCase(), command);
+                this.commands.set(commandFileName.toLowerCase(), command);
 
                 delete require.cache[require.resolve(`${a1}`)];
             }).catch((reason: Error) => this.client.log.e("LoadCommand", reason.message));
