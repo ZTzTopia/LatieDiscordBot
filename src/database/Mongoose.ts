@@ -51,8 +51,8 @@ export class Mongoose {
   }
 
   public async fetchMember(memberId: string, guildId: string): Promise<Member> {
-    if (this.memberDataCache.has(`${memberId}${guildId}`)) {
-      return this.memberDataCache.get(`${memberId}${guildId}`) as Member;
+    if (this.memberDataCache.has(`${guildId}/${memberId}`)) {
+      return this.memberDataCache.get(`${guildId}/${memberId}`) as Member;
     }
 
     let memberData = await memberModel.findOne({id: memberId, guildId: guildId}).exec();
@@ -65,12 +65,12 @@ export class Mongoose {
       await memberData.save()
     }
 
-    this.memberDataCache.set(`${memberId}${guildId}`, memberData);
+    this.memberDataCache.set(`${guildId}/${memberId}`, memberData);
     return memberData;
   }
 
   public async updateMember(memberId: string, guildId: string, memberData: Member): Promise<void> {
     await memberModel.updateOne({id: memberId, guildId: guildId}, memberData).exec();
-    this.memberDataCache.set(`${memberId}${guildId}`, memberData);
+    this.memberDataCache.set(`${guildId}/${memberId}`, memberData);
   }
 }
