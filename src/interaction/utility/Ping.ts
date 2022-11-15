@@ -14,9 +14,9 @@ export default class Ping extends InteractionContext {
 
   public async run_command(interaction: CommandInteraction): Promise<void> {
     const start = interaction.createdTimestamp;
-    await interaction.reply("\\🏓 Pinging...");
+    await interaction.reply(":ping_pong: Pinging...");
     const end = new Date().getTime() - start;
-    await interaction.editReply(`\\🏓 Pong! Latency is ${end}ms. API Latency is ${Math.round(this.client.ws.ping)}ms`);
+    await interaction.editReply(`:ping_pong: Pong! Latency is ${end}ms. API Latency is ${Math.round(this.client.ws.ping)}ms`);
   }
 
   run_button: undefined;
