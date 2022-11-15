@@ -80,6 +80,11 @@ export class InteractionManager {
     try {
       if (config.globalSlashCommands) {
         await rest.put(
+            Routes.applicationGuildCommands(config.clientId, config.guildId),
+            {body: []},
+        );
+
+        await rest.put(
           Routes.applicationCommands(config.clientId),
           {body: InteractionsJSON},
         );
