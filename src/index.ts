@@ -23,6 +23,6 @@ if (process.env.MONGODB_USER as string) {
 
 (async () => {
   const Client = new Latie();
-  await Client.mongoose.connect(`mongodb${usingSrv ? "srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
+  await Client.mongoose.connect(`mongodb${usingSrv ? "+srv" : ""}://${usingAuthentication ? (process.env.MONGODB_USER as string) + ":" + (process.env.MONGODB_PASSWORD as string) + "@" : ""}${process.env.MONGODB_URL as string}${usingSrv ? "" : ":" + (process.env.MONGODB_PORT as string)}/discordBot?retryWrites=true&w=majority`);
   await Client.build("./event/", "./command/", "./interaction");
 })().catch(console.error);
